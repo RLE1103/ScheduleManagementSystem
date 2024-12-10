@@ -6,8 +6,17 @@ username: myadmin
 password: password
 */
 
+session_start(); 
+//session_start();    // session starts with the help of this function 
+
 if (isset($_POST['loginbtn'])) {
+
     
+
+    if(isset($_SESSION['use'])) {
+        header("Location:home.php"); 
+    }
+
     //encode text
     // echo base64_encode($str);
     //decode text
@@ -26,7 +35,9 @@ if (isset($_POST['loginbtn'])) {
     // Check if a row was returned
     if ($result && mysqli_num_rows($result) > 0) {
         // Successful login
+        $_SESSION['use']=$username;
         header("Location: home.php");
+        echo '<script type="text/javascript"> window.open("home.php","_self");</script>';
         exit();
     } else {
         // Invalid input
@@ -37,5 +48,4 @@ if (isset($_POST['loginbtn'])) {
 
     mysqli_close($conn);
 }
-
 ?>

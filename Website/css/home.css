@@ -61,3 +61,15 @@ body {
 .content-padding {
     margin-top: 56px; /* Adjust based on your navbar height */
 }
+
+/* User */
+table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.container-fluid .sesname {
+    padding-right: 100px;
+}
+/* User */

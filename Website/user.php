@@ -1,23 +1,31 @@
+<?php
+    include('header.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>User</title>
     <link rel="stylesheet" href="css/home.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <div class="fixed-top">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-1">
-            <div class="container-fluid"> <!-- Use container-fluid for full width -->
-                <a class="navbar-brand" href="#">Schedule Management System</a>
-                <a href="login.php" class="btn btn-outline-light">Logout</a>
+            <div class="container-fluid">
+            <a class="navbar-brand" href="#">Schedule Management System</a>
+                <?php if (isset($_SESSION['use'])): ?>
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 mr-3 text-white "style="padding: 0 5px;"><?php echo $_SESSION['use']; ?></p>
+                        <a href="logout.php" class="btn btn-outline-light">Logout</a>
+                    </div>
+                <?php else: ?>
+                    <a href="login.php" class="btn btn-outline-light">Login</a>
+                <?php endif; ?>
             </div>
         </nav>
     </div>
@@ -26,28 +34,32 @@
             <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-white Sidebar">
                 <div class="d-flex flex-column align-items-center align-items-sm-start pt-2 min-vh-100 ">
                     <ul class="nav nav-pills flex-column ms-1">
-                        <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Class</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Schedule</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Maintenance</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home.php">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="class.php">Class</a></li>
+                        <li class="nav-item"><a class="nav-link" href="schedule.php">Schedule</a></li>
+                        <li class="nav-item"><a class="nav-link" href="maintenance.php">Maintenance</a></li>
                         <li class="nav-item"><a class="nav-link active" href="user.php">User</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.php">Contact</a></li>
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-12"> <!-- Content -->
+            <!-- <div class="col-lg-12"> Content -->
+            <div class="col-lg-10">
                 <div class="row">
                     <div class="col-12">
                         <h3>Dashboard</h3>
                         <hr>
                         <h5>User Table</h5>
-                        <div class="table-responsive-sm">
-                            <table class="table table-striped table-bordered" id="testtable" class="display">
+                        <div class="table-responsive">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">Add User</button>
+                            <table class="table table-striped" id="testtable" >
                                 <thead class="thead-dark">
                                     <tr>
                                         <th>#</th>
                                         <th>Username</th>
                                         <th>Email</th>
+                                        <th>Password</th>
                                         <th>Last name</th>
                                         <th>First name</th>
                                         <th>Middle name</th>
@@ -89,10 +101,12 @@
                                                     <td>{$row['birthday']}</td>
                                                     <td>{$row['address']}</td>
                                                     <td>{$row['mobile']}</td>
+                                                    <td>{$row['lastlogin']}</td>
                                                     <td>
                                                         <form method='POST' action=''>
                                                             <input type='hidden' name='id' value='{$row['id']}'>
                                                             <button type='submit' name='remove' class='btn btn-danger'>Remove</button>
+                                                            <a href='edit.php?id={$row['id']}' class='btn btn-primary'>Edit</a>
                                                         </form>
                                                     </td>
                                                 </tr>";
@@ -100,16 +114,15 @@
                                     } else {
                                         echo "<tr><td colspan='12' class='text-center'>No records found</td></tr>";
                                     }
-
+                                    
                                     mysqli_close($conn);
                                     ?>
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                Add User
-            </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <footer class="footer fixed-bottom flex-shrink-0 py-1 bg-dark text-white-50">
@@ -120,13 +133,13 @@
         </div>
     </footer>
     <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="add_user.php"> <!-- Specify your action URL here -->
+                <form method="POST" action="dbprocess.php">
                     <div class="modal-body">
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="bi bi-person"></i></span>
@@ -142,15 +155,15 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
-                            <input id="lastname" type="text" class="form-control" name="lastname" placeholder="Last Name" required>
-                        </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
                             <input id="firstname" type="text" class="form-control" name="firstname" placeholder="First Name" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
                             <input id="middlename" type="text" class="form-control" name="middlename" placeholder="Middle Name" required>
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                            <input id="lastname" type="text" class="form-control" name="lastname" placeholder="Last Name" required>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text"><i class="bi bi-cake"></i></span>
@@ -167,7 +180,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary" name="addbtn">Add</button>
                     </div>
                 </form>
             </div>
@@ -176,6 +189,7 @@
 </body>
 </html>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 

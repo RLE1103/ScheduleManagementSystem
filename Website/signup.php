@@ -11,7 +11,7 @@
 <body>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <div class="wrapper signup">
-        <form action="signupfor.php" method="post">
+        <form action="dbprocess.php" method="post">
             <h1><b>SignUp</b></h1>
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-person"></i></span>
@@ -27,15 +27,15 @@
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
-                <input id="lastname" type="text" class="form-control" name="lastname" placeholder="Last Name" required>
-            </div>
-            <div class="input-group mb-3">
-                <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
                 <input id="firstname" type="text" class="form-control" name="firstname" placeholder="First Name" required>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
                 <input id="middlename" type="text" class="form-control" name="middlename" placeholder="Middle Name" required>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-person-circle"></i></span>
+                <input id="lastname" type="text" class="form-control" name="lastname" placeholder="Last Name" required>
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-cake"></i></span>

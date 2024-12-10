@@ -28,3 +28,11 @@
     </div>
 </body>
 </html>
+<?php
+    session_start();
+
+    if(isset($_SESSION['use']))
+    {
+        header("Location:home.php");  
+    }
+?>

@@ -1,10 +1,11 @@
 <?php
-include ('config.php');
-session_start();
-$age = '';
-$_SESSION['age'] = '16';
+    session_start();
 
+    if(!isset($_SESSION['use'])) // If session is not set then redirect to Login Page
+    {
+        header("Location:login.php");  
+    }
 
-
-
+    //echo $_SESSION['use'];
+    //echo "Login Success";
 ?>
